@@ -5,12 +5,12 @@
 
     <el-divider></el-divider>
 
-    <div style="display: flex;align-items: start">
+    <div style="display: flex;justify-content: space-between">
 
       <div style="width: 30%;display: inline-block">
         <h3>Network State</h3>
 
-        <div style="width: 300px">
+        <div>
           <div class="base-info">
             <span>block counts</span>
             <span>{{blockCount}}</span>
@@ -24,7 +24,7 @@
         </div>
       </div>
 
-      <div style="width: 70%;display: inline-block">
+      <div style="width: 60%;display: inline-block">
         <h3>Recent Blocks</h3>
 
         <el-table
@@ -50,59 +50,111 @@
 
     <el-divider></el-divider>
 
-    <div>
-      <h3>Block Detail</h3>
+    <div style="display: flex;justify-content: space-between">
 
-      <div style="width: 50%">
-        <div class="base-info">
-          <span>height</span>
-          <span>{{height}}</span>
-        </div>
-        <div class="base-info">
-          <span>confirmations</span>
-          <span>{{confirmations}}</span>
-        </div>
-        <div class="base-info">
-          <span>size</span>
-          <span>{{size}}</span>
-        </div>
-        <div class="base-info">
-          <span>time</span>
-          <span>{{time}}</span>
-        </div>
-        <div class="base-info">
-          <span>nonce</span>
-          <span>{{nonce}}</span>
-        </div>
-        <div class="base-info">
-          <span>bits</span>
-          <span>{{bits}}</span>
-        </div>
-        <div class="base-info">
-          <span>difficulty</span>
-          <span>{{difficulty}}</span>
-        </div>
-        <div class="base-info">
-          <span>merkleroot</span>
-          <span>{{merkleroot}}</span>
-        </div>
-        <div class="base-info">
-          <span>hash</span>
-          <span>{{hash}}</span>
-        </div>
-        <div class="base-info">
-          <span>previousblockhash</span>
-          <span>{{previousblockhash}}</span>
-        </div>
-        <div class="base-info">
-          <span>nextblockhash</span>
-          <span>{{nextblockhash}}</span>
-        </div>
+      <div style="width: 48%;display: inline-block">
+        <h3>Block Detail</h3>
+        <div>
+          <div class="base-info">
+            <span>height</span>
+            <span>{{height}}</span>
+          </div>
+          <div class="base-info">
+            <span>confirmations</span>
+            <span>{{confirmations}}</span>
+          </div>
+          <div class="base-info">
+            <span>size</span>
+            <span>{{size}}</span>
+          </div>
+          <div class="base-info">
+            <span>time</span>
+            <span>{{time}}</span>
+          </div>
+          <div class="base-info">
+            <span>nonce</span>
+            <span>{{nonce}}</span>
+          </div>
+          <div class="base-info">
+            <span>bits</span>
+            <span>{{bits}}</span>
+          </div>
+          <div class="base-info">
+            <span>difficulty</span>
+            <span>{{difficulty}}</span>
+          </div>
+          <div class="base-info">
+            <span>merkleroot</span>
+            <span>{{merkleroot}}</span>
+          </div>
+          <div class="base-info">
+            <span>hash</span>
+            <span>{{hash}}</span>
+          </div>
+          <div class="base-info">
+            <span>previousblockhash</span>
+            <span>{{previousblockhash}}</span>
+          </div>
+          <div class="base-info">
+            <span>nextblockhash</span>
+            <span>{{nextblockhash}}</span>
+          </div>
+
+          <div class="base-info">
+            <span>transactions</span>
+            <span style="text-align: right">
+            <div v-for="item in transactions">{{item}}</div>
+          </span>
+          </div>
 
 
+        </div>
+      </div>
+
+      <div style="width: 48%;display: inline-block">
+        <h3>Transactions Detail</h3>
+        <div>
+          <div class="base-info">
+            <span>fee</span>
+            <span>{{fee}}</span>
+          </div>
+
+          <div class="base-info">
+            <span>blockindex</span>
+            <span>{{blockindex}}</span>
+          </div>
+
+          <div class="base-info">
+            <span>blocktime</span>
+            <span>{{blocktime}}</span>
+          </div>
+
+          <div class="base-info">
+            <span>txid</span>
+            <span>{{txid}}</span>
+          </div>
+
+          <div class="base-info">
+            <span>timereceived</span>
+            <span>{{timereceived}}</span>
+          </div>
+
+          <div class="base-info">
+            <span>comment</span>
+            <span>{{comment}}</span>
+          </div>
+
+          <div class="base-info">
+            <span>hex</span>
+            <div style="width:600px;display:block;word-break: break-all;word-wrap: break-word;">{{hex}}</div>
+          </div>
+
+
+        </div>
       </div>
 
     </div>
+
 
     <el-divider></el-divider>
 
@@ -133,6 +185,16 @@
         hash: '-',
         previousblockhash: '-',
         nextblockhash: '-',
+        transactions: [],
+        //part4
+        fee: '-',
+        blockindex: '-',
+        blocktime: '-',
+        txid: '-',
+        timereceived: '-',
+        comment: '-',
+        hex: '-',
+
       }
     },
     methods: {
@@ -157,6 +219,7 @@
 
           this.getRecentBlocks();
           this.getBlockDetail(this.blockCount);
+          this.getTransactionsDetail(this.blockCount);
         });
       },
 
@@ -190,14 +253,33 @@
             this.hash = result.hash;
             this.previousblockhash = result.previousblockhash;
             this.nextblockhash = result.nextblockhash;
+            this.transactions = result.tx;
           });
+        })
+      },
+
+      getTransactionsDetail(height) {
+        this.requestRpc('getblockhash', [height], (result) => {
+          this.requestRpc('getblock', [result], (result) => {
+            // this.requestRpc('gettransaction', [result.tx[0]], (result) => { //todo replace this line
+            this.requestRpc('gettransaction', ['82cb4fb99122133604e91a2ff2120f1baf0825f3f5d4a9d691a5efbcdd1d9372'], (result) => {
+              console.log(result.comment)
+              this.fee = result.fee;
+              this.blockindex = result.blockindex;
+              this.blocktime = result.blocktime;
+              this.txid = result.txid;
+              this.timereceived = result.timereceived;
+              this.comment = result.comment;
+              this.hex = result.hex;
+
+              //todo detail
+            })
+          })
         })
       }
     },
     mounted() {
       this.getBlockchainInfo();
-
-
     }
   }
 </script>
