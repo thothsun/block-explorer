@@ -178,7 +178,7 @@
 
       getBlockDetail(height) {
         this.requestRpc('getblockhash', [height], (result) => {
-          this.requestRpc('getblock', ['0000a62f70b04c1543aa129a10065f435f258f4a25f1c6f996bcd7e33b6f59de'], (result) => {
+          this.requestRpc('getblock', [result], (result) => {
             this.height = result.height;
             this.confirmations = result.confirmations;
             this.size = result.size;
