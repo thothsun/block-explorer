@@ -4,24 +4,49 @@
     <h1 style="margin-top: 20px">Block Explorer</h1>
 
     <el-divider></el-divider>
-
     <div style="display: flex;justify-content: space-between">
 
-      <div style="width: 30%;display: inline-block">
-        <h3>Network State</h3>
+      <div style="width: 32%;display: inline-block">
 
-        <div>
-          <div class="base-info">
-            <span>block counts</span>
-            <span>{{blockCount}}</span>
+        <el-card>
+          <div>
+
+            <div style="text-align: center">
+              <div>Blocks</div>
+              <div style="font-size: 3rem;margin-top: 8px">{{blockCount}}</div>
+            </div>
+
+            <el-divider></el-divider>
+
+            <div style="text-align: center">
+              <div>Time from last block</div>
+              <div style="display: flex;justify-content: space-around;margin-top: 8px">
+                <div style="display: inline-block">
+                  <div style="font-size: 2.4rem">{{parseInt(lastTime/3600)}}</div>
+                  <div>hours</div>
+                </div>
+                <div style="display: inline-block">
+                  <div style="font-size: 2.4rem">{{parseInt(lastTime/60)}}</div>
+                  <div>minutes</div>
+                </div>
+                <div style="display: inline-block">
+                  <div style="font-size: 2.4rem">{{parseInt(lastTime%60)}}</div>
+                  <div>seconds</div>
+                </div>
+              </div>
+            </div>
+
+            <el-divider></el-divider>
+
+            <div class="base-info">
+              <span>difficulty</span>
+              <span>{{currentDifficulty}}</span>
+            </div>
+
           </div>
+        </el-card>
 
-          <div class="base-info">
-            <span>difficulty</span>
-            <span>{{currentDifficulty}}</span>
-          </div>
 
-        </div>
       </div>
 
       <div style="width: 60%;display: inline-block">
@@ -170,6 +195,7 @@
       return {
         //part1
         blockCount: '-',
+        lastTime: 0,
         currentDifficulty: '-',
         //part2
         blockList: [],
@@ -276,10 +302,17 @@
             })
           })
         })
+      },
+
+      setLastTime() {
+        setInterval(() => {
+          this.lastTime = new Date().getTime() / 1000 - this.time;
+        }, 1000);
       }
     },
     mounted() {
       this.getBlockchainInfo();
+      this.setLastTime();
     }
   }
 </script>
