@@ -6,7 +6,7 @@
     <el-divider></el-divider>
     <div style="display: flex;justify-content: space-between">
 
-      <div style="width: 32%;display: inline-block">
+      <div style="width: 320px;display: inline-block">
 
         <el-card>
           <div>
@@ -171,7 +171,7 @@
 
           <div class="base-info">
             <span>hex</span>
-            <div style="width:600px;display:block;word-break: break-all;word-wrap: break-word;">{{hex}}</div>
+            <div style="width:600px;display:block;word-break: break-all;word-wrap: break-word;margin-left: 24px;">{{hex}}</div>
           </div>
 
 
@@ -289,7 +289,6 @@
           this.requestRpc('getblock', [result], (result) => {
             // this.requestRpc('gettransaction', [result.tx[0]], (result) => { //todo replace this line
             this.requestRpc('gettransaction', ['82cb4fb99122133604e91a2ff2120f1baf0825f3f5d4a9d691a5efbcdd1d9372'], (result) => {
-              console.log(result.comment)
               this.fee = result.fee;
               this.blockindex = result.blockindex;
               this.blocktime = result.blocktime;
@@ -331,6 +330,12 @@
 
   .base-info span:first-child {
     font-weight: bolder;
+  }
+
+  .base-info span:nth-child(2){
+    margin-left: 24px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
 
