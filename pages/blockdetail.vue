@@ -64,6 +64,12 @@
 
     </el-card>
 
+    <el-divider></el-divider>
+
+    <div v-for="tx in txlist">
+      {{tx}}
+    </div>
+
   </div>
 
 </template>
@@ -76,7 +82,8 @@
     name: "blockdetail",
     data() {
       return {
-        block: {}
+        block: {},
+        txlist: []
       }
     },
     methods: {
@@ -92,6 +99,7 @@
           console.log(method + ': ' + response.data.result);
           callback(response.data.result);
         }).catch((error) => {
+          console.log(error);
           this.$message({
             duration: 0,
             showClose: true,
@@ -104,7 +112,19 @@
       getBlockDetail(hash) {
         this.requestRpc('getblock', [hash], (result) => {
           this.block = result;
+
+          for (let i = 0; i < result.tx.length; i++) {
+            console.log(result.tx[i]);
+            this.getTransactionsDetail(result.tx[i]);
+          }
         });
+      },
+
+      getTransactionsDetail(txid) {
+        console.log(txid);
+        this.requestRpc('getrawtransaction', [txid,1], (result) => {
+          this.txlist.push(result);
+        })
       },
 
       timestamp2date(timestamp) {

@@ -3,12 +3,14 @@
 
     <div style="display: flex;justify-content: space-between;align-items: center">
       <h1 style="margin-top: 20px">Block Explorer</h1>
-
+      <!--12430-blockhash:00000000da61d767c9b8f16855119ed50c62bca72adefa2442ebe1810a4f0cd8-->
+      <!--txid:82cb4fb99122133604e91a2ff2120f1baf0825f3f5d4a9d691a5efbcdd1d9372-->
       <div>
         <el-input style="width: 400px" clearable size="mini" v-model="inputHash"
                   placeholder="Search by hash">
         </el-input>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="goToDetail(inputHash)" :disabled="inputHash===''?true:false">Go!
+        <el-button type="primary" icon="el-icon-search" size="mini" @click="goToDetail(inputHash)"
+                   :disabled="inputHash===''?true:false">Go!
         </el-button>
       </div>
     </div>
@@ -187,7 +189,7 @@
       getRecentBlocks() {
         let times = this.blockCount;
 
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < 10; i++) {
           if (times - i < 0) break;
           this.requestRpc('getblockhash', [times - i], (result) => {
             this.getBlockDetail(result);
@@ -203,24 +205,6 @@
         });
       },
 
-      // getTransactionsDetail(height) {
-      //   this.requestRpc('getblockhash', [height], (result) => {
-      //     this.requestRpc('getblock', [result], (result) => {
-      //       // this.requestRpc('gettransaction', [result.tx[0]], (result) => { //todo replace this line
-      //       this.requestRpc('gettransaction', ['82cb4fb99122133604e91a2ff2120f1baf0825f3f5d4a9d691a5efbcdd1d9372'], (result) => {
-      //         this.fee = result.fee;
-      //         this.blockindex = result.blockindex;
-      //         this.blocktime = result.blocktime;
-      //         this.txid = result.txid;
-      //         this.timereceived = result.timereceived;
-      //         this.comment = result.comment;
-      //         this.hex = result.hex;
-      //
-      //         //todo detail
-      //       })
-      //     })
-      //   })
-      // },
 
       setLastTime() {
         setInterval(() => {
