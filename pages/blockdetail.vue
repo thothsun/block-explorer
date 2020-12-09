@@ -1,10 +1,19 @@
 <template>
-  <div>123</div>
+  <div>{{hash}}</div>
 </template>
 
 <script>
   export default {
-    name: "blockdetail"
+    name: "blockdetail",
+    data() {
+      return {
+        hash: ''
+      }
+    },
+    mounted() {
+      let hash = this.$route.params.hash;
+      this.hash = hash;
+    }
   }
 </script>
 

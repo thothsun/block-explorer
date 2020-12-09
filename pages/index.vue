@@ -5,10 +5,11 @@
       <h1 style="margin-top: 20px">Block Explorer</h1>
 
       <div>
-        <el-input style="width: 400px" clearable size="mini"
+        <el-input style="width: 400px" clearable size="mini" v-model="inputHash"
                   placeholder="Search by hash or height">
         </el-input>
-        <el-button type="primary" icon="el-icon-search" size="mini" value="inputHash">Go!</el-button>
+        <el-button type="primary" icon="el-icon-search" size="mini" @click="goToDetail(inputHash)" :disabled="inputHash===''?true:false">Go!
+        </el-button>
       </div>
     </div>
 
@@ -70,10 +71,12 @@
 
                 <div style="display: flex;justify-content: space-between;align-items: center">
                   <div style="font-size: 2rem;">{{block.height}}</div>
-                  <el-link href="blockdetail" target="_blank">
-                    <i class="el-icon-position" style="color: dodgerblue"></i>
-                    <el-button type="text" size="mini">Detail</el-button>
-                  </el-link>
+                  <el-button type="text"
+                             size="mini"
+                             @click="goToDetail(block.hash)"
+                             icon="el-icon-position">
+                    Detail
+                  </el-button>
                 </div>
 
 
@@ -187,10 +190,6 @@
         for (let i = 0; i < 5; i++) {
           if (times - i < 0) break;
           this.requestRpc('getblockhash', [times - i], (result) => {
-            // this.blockList.push({
-            //   'height': times - i,
-            //   'hash': result
-            // });
             this.getBlockDetail(result);
           })
         }
@@ -237,6 +236,10 @@
           + (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':'
           + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) + ':'
           + (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds());
+      },
+
+      goToDetail(hash) {
+        this.$router.push({name: 'blockdetail', params: {hash: hash}});
       }
     },
     mounted() {
