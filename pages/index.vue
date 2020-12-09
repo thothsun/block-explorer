@@ -1,7 +1,16 @@
 <template>
   <div style="width: 80%;margin: 0 auto">
 
-    <h1 style="margin-top: 20px">Block Explorer</h1>
+    <div style="display: flex;justify-content: space-between;align-items: center">
+      <h1 style="margin-top: 20px">Block Explorer</h1>
+
+      <div>
+        <el-input style="width: 400px" clearable size="mini"
+                  placeholder="Search by hash or height">
+        </el-input>
+        <el-button type="primary" icon="el-icon-search" size="mini" value="inputHash">Go!</el-button>
+      </div>
+    </div>
 
     <el-divider></el-divider>
     <div style="display: flex;justify-content: space-around">
@@ -57,12 +66,23 @@
           <el-timeline>
             <el-timeline-item placement="top" v-for="(block,index) in blockList" :timestamp="timestamp2date(block.time)"
                               :type="index === 0?'success':'info'">
-              <el-card>
+              <el-card shadow="hover">
 
-                <div style="font-size: 2rem">{{block.height}}</div>
-                <p style="color: deepskyblue">{{block.hash}}</p>
+                <div style="display: flex;justify-content: space-between;align-items: center">
+                  <div style="font-size: 2rem;">{{block.height}}</div>
+                  <el-link href="blockdetail" target="_blank">
+                    <i class="el-icon-position" style="color: dodgerblue"></i>
+                    <el-button type="text" size="mini">Detail</el-button>
+                  </el-link>
+                </div>
 
-                <div style="display: flex;justify-content: space-between;">
+
+                <div class="base-info">
+                  <span>Hash</span>
+                  <span>{{block.hash}}</span>
+                </div>
+
+                <div style="display: flex;justify-content: space-between;margin: 18px 0">
                   <div style="width: 45%;display: inline-block">
                     <div class="base-info">
                       <span>Confirmations</span>
@@ -133,6 +153,8 @@
         currentDifficulty: '-',
         //part2
         blockList: [],
+        //search bar
+        inputHash: '',
       }
     },
     methods: {
