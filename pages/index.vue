@@ -6,7 +6,7 @@
 
       <div>
         <el-input style="width: 400px" clearable size="mini" v-model="inputHash"
-                  placeholder="Search by hash or height">
+                  placeholder="Search by hash">
         </el-input>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="goToDetail(inputHash)" :disabled="inputHash===''?true:false">Go!
         </el-button>
