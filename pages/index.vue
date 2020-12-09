@@ -4,7 +4,7 @@
     <h1 style="margin-top: 20px">Block Explorer</h1>
 
     <el-divider></el-divider>
-    <div style="display: flex;justify-content: space-between">
+    <div style="display: flex;justify-content: space-around">
 
       <div style="width: 320px;display: inline-block">
 
@@ -49,139 +49,73 @@
 
       </div>
 
-      <div style="width: 60%;display: inline-block">
+      <div style="width:800px;display: inline-block;padding: 12px 36px">
         <h3>Recent Blocks</h3>
 
-        <el-table
-          :data="blockList"
-          style="width: 80%"
-          border>
-          <el-table-column
-            label="height"
-            prop="height"
-            min-width="20">
-          </el-table-column>
 
-          <el-table-column
-            label="hash"
-            prop="hash"
-            min-width="80">
-          </el-table-column>
+        <div>
+          <el-timeline>
+            <el-timeline-item placement="top" v-for="(block,index) in blockList" :timestamp="timestamp2date(block.time)"
+                              :type="index === 0?'success':'info'">
+              <el-card>
 
-        </el-table>
+                <div style="font-size: 2rem">{{block.height}}</div>
+                <p style="color: deepskyblue">{{block.hash}}</p>
+
+                <div style="display: flex;justify-content: space-between;">
+                  <div style="width: 45%;display: inline-block">
+                    <div class="base-info">
+                      <span>Confirmations</span>
+                      <span>{{block.confirmations}}</span>
+                    </div>
+                    <div class="base-info">
+                      <span>Nonce</span>
+                      <span>{{block.nonce}}</span>
+                    </div>
+                    <div class="base-info">
+                      <span>Difficulty</span>
+                      <span>{{block.difficulty}}</span>
+                    </div>
+                  </div>
+                  <div style="width: 45%;display: inline-block">
+                    <div class="base-info">
+                      <span>Size</span>
+                      <span>{{block.size}} bytes</span>
+                    </div>
+                    <div class="base-info">
+                      <span>Bits</span>
+                      <span>0x{{block.bits}}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="base-info">
+                  <span>Merkleroot</span>
+                  <span>{{block.merkleroot}}</span>
+                </div>
+                <div class="base-info">
+                  <span>Previousblockhash</span>
+                  <span>{{block.previousblockhash}}</span>
+                </div>
+                <div class="base-info">
+                  <span>Nextblockhash</span>
+                  <span>{{block.nextblockhash}}</span>
+                </div>
+                <div class="base-info">
+                  <span>Tx</span>
+                  <span>{{block.tx}}</span>
+                </div>
+
+              </el-card>
+            </el-timeline-item>
+
+          </el-timeline>
+        </div>
       </div>
-
     </div>
 
     <el-divider></el-divider>
 
-    <div style="display: flex;justify-content: space-between">
-
-      <div style="width: 48%;display: inline-block">
-        <h3>Block Detail</h3>
-        <div>
-          <div class="base-info">
-            <span>height</span>
-            <span>{{height}}</span>
-          </div>
-          <div class="base-info">
-            <span>confirmations</span>
-            <span>{{confirmations}}</span>
-          </div>
-          <div class="base-info">
-            <span>size</span>
-            <span>{{size}}</span>
-          </div>
-          <div class="base-info">
-            <span>time</span>
-            <span>{{time}}</span>
-          </div>
-          <div class="base-info">
-            <span>nonce</span>
-            <span>{{nonce}}</span>
-          </div>
-          <div class="base-info">
-            <span>bits</span>
-            <span>{{bits}}</span>
-          </div>
-          <div class="base-info">
-            <span>difficulty</span>
-            <span>{{difficulty}}</span>
-          </div>
-          <div class="base-info">
-            <span>merkleroot</span>
-            <span>{{merkleroot}}</span>
-          </div>
-          <div class="base-info">
-            <span>hash</span>
-            <span>{{hash}}</span>
-          </div>
-          <div class="base-info">
-            <span>previousblockhash</span>
-            <span>{{previousblockhash}}</span>
-          </div>
-          <div class="base-info">
-            <span>nextblockhash</span>
-            <span>{{nextblockhash}}</span>
-          </div>
-
-          <div class="base-info">
-            <span>transactions</span>
-            <span style="text-align: right">
-            <div v-for="item in transactions">{{item}}</div>
-          </span>
-          </div>
-
-
-        </div>
-      </div>
-
-      <div style="width: 48%;display: inline-block">
-        <h3>Transactions Detail</h3>
-        <div>
-          <div class="base-info">
-            <span>fee</span>
-            <span>{{fee}}</span>
-          </div>
-
-          <div class="base-info">
-            <span>blockindex</span>
-            <span>{{blockindex}}</span>
-          </div>
-
-          <div class="base-info">
-            <span>blocktime</span>
-            <span>{{blocktime}}</span>
-          </div>
-
-          <div class="base-info">
-            <span>txid</span>
-            <span>{{txid}}</span>
-          </div>
-
-          <div class="base-info">
-            <span>timereceived</span>
-            <span>{{timereceived}}</span>
-          </div>
-
-          <div class="base-info">
-            <span>comment</span>
-            <span>{{comment}}</span>
-          </div>
-
-          <div class="base-info">
-            <span>hex</span>
-            <div style="width:600px;display:block;word-break: break-all;word-wrap: break-word;margin-left: 24px;">{{hex}}</div>
-          </div>
-
-
-        </div>
-      </div>
-
-    </div>
-
-
-    <el-divider></el-divider>
 
   </div>
 </template>
@@ -199,28 +133,6 @@
         currentDifficulty: '-',
         //part2
         blockList: [],
-        //part3
-        height: '-',
-        confirmations: '-',
-        size: '-',
-        time: '-',
-        nonce: '-',
-        bits: '-',
-        difficulty: '-',
-        merkleroot: '-',
-        hash: '-',
-        previousblockhash: '-',
-        nextblockhash: '-',
-        transactions: [],
-        //part4
-        fee: '-',
-        blockindex: '-',
-        blocktime: '-',
-        txid: '-',
-        timereceived: '-',
-        comment: '-',
-        hex: '-',
-
       }
     },
     methods: {
@@ -244,8 +156,6 @@
           this.currentDifficulty = result.difficulty;
 
           this.getRecentBlocks();
-          this.getBlockDetail(this.blockCount);
-          this.getTransactionsDetail(this.blockCount);
         });
       },
 
@@ -255,58 +165,56 @@
         for (let i = 0; i < 5; i++) {
           if (times - i < 0) break;
           this.requestRpc('getblockhash', [times - i], (result) => {
-            this.blockList.push({
-              'height': times - i,
-              'hash': result
-            });
+            // this.blockList.push({
+            //   'height': times - i,
+            //   'hash': result
+            // });
+            this.getBlockDetail(result);
           })
         }
 
       },
 
 
-      getBlockDetail(height) {
-        this.requestRpc('getblockhash', [height], (result) => {
-          this.requestRpc('getblock', [result], (result) => {
-            this.height = result.height;
-            this.confirmations = result.confirmations;
-            this.size = result.size;
-            this.time = result.time;
-            this.nonce = result.nonce;
-            this.bits = result.bits;
-            this.difficulty = result.difficulty;
-            this.merkleroot = result.merkleroot;
-            this.hash = result.hash;
-            this.previousblockhash = result.previousblockhash;
-            this.nextblockhash = result.nextblockhash;
-            this.transactions = result.tx;
-          });
-        })
+      getBlockDetail(hash) {
+        this.requestRpc('getblock', [hash], (result) => {
+          this.blockList.push(result);
+        });
       },
 
-      getTransactionsDetail(height) {
-        this.requestRpc('getblockhash', [height], (result) => {
-          this.requestRpc('getblock', [result], (result) => {
-            // this.requestRpc('gettransaction', [result.tx[0]], (result) => { //todo replace this line
-            this.requestRpc('gettransaction', ['82cb4fb99122133604e91a2ff2120f1baf0825f3f5d4a9d691a5efbcdd1d9372'], (result) => {
-              this.fee = result.fee;
-              this.blockindex = result.blockindex;
-              this.blocktime = result.blocktime;
-              this.txid = result.txid;
-              this.timereceived = result.timereceived;
-              this.comment = result.comment;
-              this.hex = result.hex;
-
-              //todo detail
-            })
-          })
-        })
-      },
+      // getTransactionsDetail(height) {
+      //   this.requestRpc('getblockhash', [height], (result) => {
+      //     this.requestRpc('getblock', [result], (result) => {
+      //       // this.requestRpc('gettransaction', [result.tx[0]], (result) => { //todo replace this line
+      //       this.requestRpc('gettransaction', ['82cb4fb99122133604e91a2ff2120f1baf0825f3f5d4a9d691a5efbcdd1d9372'], (result) => {
+      //         this.fee = result.fee;
+      //         this.blockindex = result.blockindex;
+      //         this.blocktime = result.blocktime;
+      //         this.txid = result.txid;
+      //         this.timereceived = result.timereceived;
+      //         this.comment = result.comment;
+      //         this.hex = result.hex;
+      //
+      //         //todo detail
+      //       })
+      //     })
+      //   })
+      // },
 
       setLastTime() {
         setInterval(() => {
-          this.lastTime = new Date().getTime() / 1000 - this.time;
+          this.lastTime = new Date().getTime() / 1000 - this.blockList[0].time;
         }, 1000);
+      },
+
+      timestamp2date(timestamp) {
+        let date = new Date(timestamp * 1000);
+        return date.getFullYear() + '-'
+          + (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-'
+          + (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + ' '
+          + (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':'
+          + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) + ':'
+          + (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds());
       }
     },
     mounted() {
@@ -332,7 +240,7 @@
     font-weight: bolder;
   }
 
-  .base-info span:nth-child(2){
+  .base-info span:nth-child(2) {
     margin-left: 24px;
     overflow: hidden;
     text-overflow: ellipsis;
