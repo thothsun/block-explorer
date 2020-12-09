@@ -7,7 +7,7 @@
     <el-card style="width: 800px;margin: 0 auto">
 
       <div style="display: flex;justify-content: space-between;align-items: center">
-        <div style="font-size: 2rem;">{{block.height}}</div>
+        <div style="font-size: 2rem;">Height {{block.height}}</div>
         <div>{{timestamp2date(block.time)}}</div>
       </div>
 
@@ -66,9 +66,22 @@
 
     <el-divider></el-divider>
 
-    <div v-for="tx in txlist">
-      {{tx}}
-    </div>
+    <h3>Transactions</h3>
+
+    <el-card v-for="tx in txlist" shadow="hover">
+
+      <p>txid: {{tx.txid}}</p>
+      <p>hex: {{tx.hex}}</p>
+      <p>size: {{tx.size}}</p>
+      <p>version: {{tx.version}}</p>
+      <p>locktime: {{tx.locktime}}</p>
+      <p>confirmations: {{tx.confirmations}}</p>
+      <p>time: {{tx.time}}</p>
+      <p>blocktime: {{tx.blocktime}}</p>
+      <p>vin: {{tx.vin}}</p>
+      <p>vout: {{tx.vout}}</p>
+
+    </el-card>
 
   </div>
 
@@ -122,7 +135,7 @@
 
       getTransactionsDetail(txid) {
         console.log(txid);
-        this.requestRpc('getrawtransaction', [txid,1], (result) => {
+        this.requestRpc('getrawtransaction', [txid, 1], (result) => {
           this.txlist.push(result);
         })
       },
