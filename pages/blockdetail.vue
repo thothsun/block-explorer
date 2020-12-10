@@ -14,7 +14,7 @@
         </div>
 
 
-        <div class="base-info">
+        <div class="base-info" style="margin-top: 18px">
           <span>Hash</span>
           <span>{{block.hash}}</span>
         </div>
@@ -61,30 +61,153 @@
         </div>
         <div class="base-info">
           <span>Tx</span>
-          <span>{{block.tx}}</span>
+          <span style="text-align: right">{{block.tx}}</span>
         </div>
 
       </el-card>
 
       <el-divider></el-divider>
 
-      <h3>Transactions</h3>
+      <h4>Transactions</h4>
 
-      <el-card v-for="tx in txlist" shadow="hover">
+      <el-timeline>
+        <el-timeline-item hide-timestamp placement="top" v-for="(tx,index) in txlist">
+          <el-card shadow="hover" body-style="border:1px darkgray solid">
 
-        <p>txid: {{tx.txid}}</p>
-        <p>hex: {{tx.hex}}</p>
-        <p>size: {{tx.size}}</p>
-        <p>version: {{tx.version}}</p>
-        <p>locktime: {{tx.locktime}}</p>
-        <p>confirmations: {{tx.confirmations}}</p>
-        <p>time: {{tx.time}}</p>
-        <p>blocktime: {{tx.blocktime}}</p>
-        <p>vin: {{tx.vin}}</p>
-        <p>vout: {{tx.vout}}</p>
+            <div class="base-info">
+              <span>Txid</span>
+              <span>{{tx.txid}}</span>
+            </div>
+            <div class="base-info">
+              <span>Hex</span>
+              <div style="overflow: hidden;white-space: normal;word-break: break-all;margin-left: 48px">{{tx.hex}}</div>
+            </div>
 
-      </el-card>
 
+            <div style="display: flex;justify-content: space-between;margin: 18px 0">
+              <div style="width: 45%;display: inline-block">
+                <div class="base-info">
+                  <span>Size</span>
+                  <span>{{tx.size}}</span>
+                </div>
+                <div class="base-info">
+                  <span>Version</span>
+                  <span>{{tx.version}}</span>
+                </div>
+                <div class="base-info">
+                  <span>Locktime</span>
+                  <span>{{tx.locktime}}</span>
+                </div>
+              </div>
+              <div style="width: 45%;display: inline-block">
+                <div class="base-info">
+                  <span>Confirmations</span>
+                  <span>{{tx.confirmations}}</span>
+                </div>
+                <div class="base-info">
+                  <span>Time</span>
+                  <span>{{tx.time}}</span>
+                </div>
+                <div class="base-info">
+                  <span>Blocktime</span>
+                  <span>{{tx.blocktime}}</span>
+                </div>
+              </div>
+            </div>
+
+            <div style="display: flex;justify-content: space-around;margin: 18px 0">
+              <div style="width: 42%;display: inline-block;border: 1px darkgrey dashed;padding: 0 16px 6px">
+                <h5 style="text-align: center">Vin</h5>
+
+                <div v-if="tx.vin[0].coinbase !== undefined" v-for="(item,index) in tx.vin">
+                  <div class="base-info">
+                    <span>coinbase</span>
+                    <span>{{item.coinbase}}</span>
+                  </div>
+                  <div class="base-info">
+                    <span>sequence</span>
+                    <span>{{item.sequence}}</span>
+                  </div>
+
+                  <el-divider v-if="index!==tx.vin.length-1"></el-divider>
+                </div>
+
+                <div v-else v-for="(item,index) in tx.vin">
+                  <div class="base-info">
+                    <span>txid</span>
+                    <div>{{item.txid}}</div>
+                  </div>
+
+                  <div class="base-info">
+                    <span>vout</span>
+                    <span>{{item.vout}}</span>
+                  </div>
+
+                  <div class="base-info">
+                    <span>sequence</span>
+                    <span>{{item.sequence}}</span>
+                  </div>
+
+                  <div class="base-info">
+                    <span>asm</span>
+                    <div>{{item.scriptSig.asm}}</div>
+                  </div>
+
+                  <div class="base-info">
+                    <span>hex</span>
+                    <div>{{item.scriptSig.hex}}</div>
+                  </div>
+
+                  <el-divider v-if="index!==tx.vin.length-1"></el-divider>
+
+                </div>
+
+              </div>
+
+              <i class="el-icon-right" style="display: flex;align-items: center;font-size: 36px"></i>
+
+              <div style="width: 42%;display: inline-block;border: 1px darkgrey dashed;padding: 0 16px 6px">
+                <h5 style="text-align: center">Vout</h5>
+
+
+                <div v-for="(item,index) in tx.vout">
+                  <div class="base-info">
+                    <span>value</span>
+                    <span>{{item.value}}</span>
+                  </div>
+                  <div class="base-info">
+                    <span>n</span>
+                    <span>{{item.n}}</span>
+                  </div>
+                  <div class="base-info">
+                    <span>reqSigs</span>
+                    <span>{{item.scriptPubKey.reqSigs}}</span>
+                  </div>
+                  <div class="base-info">
+                    <span>type</span>
+                    <span>{{item.scriptPubKey.type}}</span>
+                  </div>
+                  <div class="base-info">
+                    <span>asm</span>
+                    <div>{{item.scriptPubKey.asm}}</div>
+                  </div>
+                  <div class="base-info">
+                    <span>hex</span>
+                    <div>{{item.scriptPubKey.hex}}</div>
+                  </div>
+                  <div class="base-info">
+                    <span>addresses</span>
+                    <div>{{item.scriptPubKey.addresses}}</div>
+                  </div>
+
+                  <el-divider v-if="index!==tx.vout.length-1"></el-divider>
+                </div>
+              </div>
+            </div>
+
+          </el-card>
+        </el-timeline-item>
+      </el-timeline>
 
     </div>
 
@@ -167,5 +290,27 @@
 </script>
 
 <style scoped>
+  .base-info {
+    display: flex;
+    justify-content: space-between;
+    color: dimgray;
+    margin: 5px 0;
+  }
 
+  .base-info span:first-child {
+    font-weight: bolder;
+  }
+
+  .base-info span:nth-child(2) {
+    margin-left: 24px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .base-info div {
+    overflow: hidden;
+    white-space: normal;
+    word-break: break-all;
+    margin-left: 48px;
+  }
 </style>
