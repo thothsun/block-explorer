@@ -1,95 +1,103 @@
 <template>
-  <div style="width: 80%;margin: 0 auto">
 
-    <h1 style="margin-top: 20px">Block Detail</h1>
+  <div>
+    <div style="width: 80%;margin: 0 auto" class="main-content">
 
-    <el-divider></el-divider>
-    <el-card style="width: 800px;margin: 0 auto">
+      <h1 style="margin-top: 20px">Block Detail</h1>
 
-      <div style="display: flex;justify-content: space-between;align-items: center">
-        <div style="font-size: 2rem;">Height {{block.height}}</div>
-        <div>{{timestamp2date(block.time)}}</div>
-      </div>
+      <el-divider></el-divider>
+      <el-card style="width: 800px;margin: 0 auto">
+
+        <div style="display: flex;justify-content: space-between;align-items: center">
+          <div style="font-size: 2rem;">Height {{block.height}}</div>
+          <div>{{timestamp2date(block.time)}}</div>
+        </div>
 
 
-      <div class="base-info">
-        <span>Hash</span>
-        <span>{{block.hash}}</span>
-      </div>
+        <div class="base-info">
+          <span>Hash</span>
+          <span>{{block.hash}}</span>
+        </div>
 
-      <div style="display: flex;justify-content: space-between;margin: 18px 0">
-        <div style="width: 45%;display: inline-block">
-          <div class="base-info">
-            <span>Confirmations</span>
-            <span>{{block.confirmations}}</span>
+        <div style="display: flex;justify-content: space-between;margin: 18px 0">
+          <div style="width: 45%;display: inline-block">
+            <div class="base-info">
+              <span>Confirmations</span>
+              <span>{{block.confirmations}}</span>
+            </div>
+            <div class="base-info">
+              <span>Nonce</span>
+              <span>{{block.nonce}}</span>
+            </div>
+            <div class="base-info">
+              <span>Difficulty</span>
+              <span>{{block.difficulty}}</span>
+            </div>
           </div>
-          <div class="base-info">
-            <span>Nonce</span>
-            <span>{{block.nonce}}</span>
-          </div>
-          <div class="base-info">
-            <span>Difficulty</span>
-            <span>{{block.difficulty}}</span>
+          <div style="width: 45%;display: inline-block">
+            <div class="base-info">
+              <span>Size</span>
+              <span>{{block.size}} bytes</span>
+            </div>
+            <div class="base-info">
+              <span>Bits</span>
+              <span>0x{{block.bits}}</span>
+            </div>
+
           </div>
         </div>
-        <div style="width: 45%;display: inline-block">
-          <div class="base-info">
-            <span>Size</span>
-            <span>{{block.size}} bytes</span>
-          </div>
-          <div class="base-info">
-            <span>Bits</span>
-            <span>0x{{block.bits}}</span>
-          </div>
 
+        <div class="base-info">
+          <span>Merkleroot</span>
+          <span>{{block.merkleroot}}</span>
         </div>
-      </div>
+        <div class="base-info">
+          <span>Previousblockhash</span>
+          <span>{{block.previousblockhash}}</span>
+        </div>
+        <div class="base-info">
+          <span>Nextblockhash</span>
+          <span>{{block.nextblockhash}}</span>
+        </div>
+        <div class="base-info">
+          <span>Tx</span>
+          <span>{{block.tx}}</span>
+        </div>
 
-      <div class="base-info">
-        <span>Merkleroot</span>
-        <span>{{block.merkleroot}}</span>
-      </div>
-      <div class="base-info">
-        <span>Previousblockhash</span>
-        <span>{{block.previousblockhash}}</span>
-      </div>
-      <div class="base-info">
-        <span>Nextblockhash</span>
-        <span>{{block.nextblockhash}}</span>
-      </div>
-      <div class="base-info">
-        <span>Tx</span>
-        <span>{{block.tx}}</span>
-      </div>
+      </el-card>
 
-    </el-card>
+      <el-divider></el-divider>
 
-    <el-divider></el-divider>
+      <h3>Transactions</h3>
 
-    <h3>Transactions</h3>
+      <el-card v-for="tx in txlist" shadow="hover">
 
-    <el-card v-for="tx in txlist" shadow="hover">
+        <p>txid: {{tx.txid}}</p>
+        <p>hex: {{tx.hex}}</p>
+        <p>size: {{tx.size}}</p>
+        <p>version: {{tx.version}}</p>
+        <p>locktime: {{tx.locktime}}</p>
+        <p>confirmations: {{tx.confirmations}}</p>
+        <p>time: {{tx.time}}</p>
+        <p>blocktime: {{tx.blocktime}}</p>
+        <p>vin: {{tx.vin}}</p>
+        <p>vout: {{tx.vout}}</p>
 
-      <p>txid: {{tx.txid}}</p>
-      <p>hex: {{tx.hex}}</p>
-      <p>size: {{tx.size}}</p>
-      <p>version: {{tx.version}}</p>
-      <p>locktime: {{tx.locktime}}</p>
-      <p>confirmations: {{tx.confirmations}}</p>
-      <p>time: {{tx.time}}</p>
-      <p>blocktime: {{tx.blocktime}}</p>
-      <p>vin: {{tx.vin}}</p>
-      <p>vout: {{tx.vout}}</p>
+      </el-card>
 
-    </el-card>
 
+    </div>
+
+    <myfooter></myfooter>
   </div>
+
 
 </template>
 
 <script>
   import axios from "axios";
   import {username, password} from '~/assets/rpcconfig'
+  import myfooter from '~/components/myfooter.vue'
 
   export default {
     name: "blockdetail",

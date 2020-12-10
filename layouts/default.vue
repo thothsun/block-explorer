@@ -28,4 +28,8 @@
     background-color: white;
   }
 
+  .main-content {
+    min-height: calc(100vh - 60px) /* 60px = footer 60px */
+  }
+
 </style>
