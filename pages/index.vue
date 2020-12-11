@@ -240,11 +240,22 @@
       },
 
       goToDetail(heightOrHash) {
-        if (/^\d+$/.test(heightOrHash)) {//height
-          this.requestRpc('getblockhash', [parseInt(heightOrHash)], (result) => {
+        if (/^\d+$/.test(heightOrHash) || heightOrHash.startsWith('-')) {//height
+          let height = parseInt(heightOrHash);
+          if (height < 0 || height > this.blockCount) {
+            this.$message({
+              duration: 0,
+              showClose: true,
+              message: 'Height out of range!',
+              type: 'error'
+            });
+            return;
+          }
+          this.requestRpc('getblockhash', [height], (result) => {
             this.$router.push({name: 'blockdetail', params: {hash: result}});
           })
         } else {//hash
+          console.log('this')
           this.$router.push({name: 'blockdetail', params: {hash: heightOrHash}});
         }
       }
