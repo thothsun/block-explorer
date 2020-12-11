@@ -211,9 +211,15 @@
       getBlockDetail(hash) {
         this.requestRpc('getblock', [hash], (result) => {
           this.blockList.push(result);
+          this.blockList.sort(this.compare('height'));
         });
       },
 
+      compare(property) {
+        return function (a, b) {
+          return b[property] - a[property];
+        }
+      },
 
       setLastTime() {
         setInterval(() => {
