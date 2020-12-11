@@ -255,7 +255,6 @@
             this.$router.push({name: 'blockdetail', params: {hash: result}});
           })
         } else {//hash
-          console.log('this')
           this.$router.push({name: 'blockdetail', params: {hash: heightOrHash}});
         }
       }

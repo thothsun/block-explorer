@@ -247,8 +247,8 @@
           this.$message({
             duration: 0,
             showClose: true,
-            message: 'Please check input hash.',
-            type: 'error'
+            message: 'No data.',
+            type: 'info'
           });
         })
       },
