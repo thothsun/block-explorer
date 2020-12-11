@@ -9,7 +9,7 @@
         <!--txid:82cb4fb99122133604e91a2ff2120f1baf0825f3f5d4a9d691a5efbcdd1d9372-->
         <div>
           <el-input style="width: 400px" clearable size="mini" v-model="inputHash"
-                    placeholder="Search by hash">
+                    placeholder="Search by hash or height">
           </el-input>
           <el-button type="primary" icon="el-icon-search" size="mini" @click="goToDetail(inputHash)"
                      :disabled="inputHash===''">Go!
@@ -69,7 +69,8 @@
 
           <div>
             <el-timeline>
-              <el-timeline-item placement="top" v-for="(block,index) in blockList" :timestamp="timestamp2date(block.time)"
+              <el-timeline-item placement="top" v-for="(block,index) in blockList"
+                                :timestamp="timestamp2date(block.time)"
                                 :type="index === 0?'success':'info'">
                 <el-card shadow="hover">
 
@@ -144,7 +145,6 @@
       <el-divider></el-divider>
 
 
-
     </div>
 
     <myfooter></myfooter>
@@ -183,6 +183,8 @@
         }).then((response) => {
           console.log(method + ': ' + response.data.result);
           callback(response.data.result);
+        }).catch((error) => {
+          console.log('err:' + error);
         })
       },
 
@@ -237,8 +239,14 @@
           + (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds());
       },
 
-      goToDetail(hash) {
-        this.$router.push({name: 'blockdetail', params: {hash: hash}});
+      goToDetail(heightOrHash) {
+        if (/^\d+$/.test(heightOrHash)) {//height
+          this.requestRpc('getblockhash', [parseInt(heightOrHash)], (result) => {
+            this.$router.push({name: 'blockdetail', params: {hash: result}});
+          })
+        } else {//hash
+          this.$router.push({name: 'blockdetail', params: {hash: heightOrHash}});
+        }
       }
     },
     mounted() {
